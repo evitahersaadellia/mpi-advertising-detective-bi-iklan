@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ADVERTISING DETECTIVE — Bongkar Pesan, Uji Efektivitas!</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Fraunces:wght@700;800&amp;display=swap" rel="stylesheet">
+  <style>
+:root{--navy:#101e49;--yellow:#ffd34d;--orange:#ff8d42;--ink:#15234a;--screen:calc(100 * min(var(--vh, 1vh), 1vh))}
+*{box-sizing:border-box}html,body{width:100%;margin:0;overflow-x:hidden}body{min-height:var(--screen);color:#fff;font-family:"DM Sans",sans-serif;background:#101e49}
+.app-shell{width:100%;min-height:var(--screen);display:flex;flex-direction:column;background:radial-gradient(circle at 90% 0%,#304b92 0%,transparent 38%),radial-gradient(circle at 0% 100%,#173b77 0%,transparent 45%),#101e49}
+.topbar,.bottom-bar{width:100%;padding:10px clamp(16px,2vw,42px);display:flex;align-items:center;justify-content:space-between;gap:12px;background:#0a1639b8}
+.topbar{min-height:64px;border-bottom:1px solid #ffffff30}.bottom-bar{min-height:66px;border-top:1px solid #ffffff30}.brand{font-weight:800;font-size:clamp(18px,1.55vw,29px);letter-spacing:.03em}.brand em{color:var(--yellow);font-style:normal}
+.actions{display:flex;gap:clamp(10px,1vw,18px);flex-wrap:wrap;align-items:center}.app-main{flex:1;width:100%;display:flex;flex-direction:column;min-height:0;padding:clamp(14px,2vw,38px)}.screen{display:none;flex:1;width:100%;min-height:0}.screen.active{display:flex;flex-direction:column;animation:appear .3s ease-out}.screen-body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}.display{font-family:Fraunces,serif;letter-spacing:-.035em}.hero-title{font-size:clamp(56px,5.4vw,105px)!important;line-height:1.03;margin:14px 0 20px}.section-title{font-size:clamp(42px,3.4vw,66px)!important;line-height:1.1;margin:8px 0 18px}.eyebrow{font-size:clamp(20px,1.3vw,27px);font-weight:800;letter-spacing:.09em;color:var(--yellow)}.body-copy{font-size:clamp(24px,1.9vw,36px);line-height:1.42}.glass{background:#ffffff16;border:1px solid #ffffff38;border-radius:24px;box-shadow:0 18px 40px #06133235}
+.btn{min-height:clamp(64px,5vw,82px);padding:12px clamp(18px,1.5vw,30px);border:2px solid transparent;border-radius:16px;display:inline-flex;justify-content:center;align-items:center;gap:8px;text-align:center;font:800 clamp(22px,1.45vw,28px)/1.15 "DM Sans",sans-serif;cursor:pointer;touch-action:manipulation;transition:transform .15s,filter .15s}.btn:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.1)}.btn:disabled{opacity:.45;cursor:not-allowed}.primary{background:#ffd34d;color:#101e49}.secondary{background:#ffffff20;color:#fff;border-color:#ffffff61}.danger{background:#e66b5e;color:#fff}.topbar .btn,.bottom-bar .btn{min-height:52px;font-size:clamp(18px,1.08vw,23px);padding:9px 17px}button:focus-visible,input:focus-visible,select:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}.hidden{display:none!important}
+.cover-layout{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.03fr);gap:clamp(20px,3vw,64px);align-items:center}.cover-copy{min-width:0}.cover-art{padding:clamp(10px,1.2vw,24px);display:flex;flex-direction:column;justify-content:center}.cover-art img{width:100%;height:auto;max-height:calc(66 * min(var(--vh, 1vh), 1vh));object-fit:contain;border-radius:16px}.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+.grid-four{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.5vw,28px)}.team-card{width:100%;min-height:clamp(116px,12vw,180px);background:#fff;color:var(--ink);border:4px solid transparent;border-radius:22px;padding:20px;text-align:left;font-size:clamp(22px,1.55vw,30px);cursor:pointer}.team-card strong{display:block;font-size:clamp(27px,2vw,40px);overflow-wrap:anywhere}.team-card.selected,.turn-btn.selected{border-color:var(--yellow);box-shadow:0 0 0 4px #ffd34d75}.field-label{display:block;margin:12px 0 6px;font-size:clamp(21px,1.4vw,28px);font-weight:800}input[type=text],select{width:100%;min-height:62px;border:2px solid #b9c6e4;border-radius:13px;padding:10px 14px;background:white;color:var(--ink);font-size:clamp(21px,1.4vw,28px)}.settings{padding:clamp(18px,2vw,36px);margin:clamp(16px,2vw,30px) 0}
+.brief-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.5vw,28px);flex:1}.brief-card{padding:clamp(22px,2vw,42px);display:flex;flex-direction:column;justify-content:center}.brief-card h3{font-size:clamp(29px,2.15vw,43px);margin:0 0 15px}.brief-card p,.brief-note{font-size:clamp(24px,1.8vw,34px);line-height:1.38;margin:0}.brief-clues{margin:clamp(14px,1.5vw,28px) 0}.clue{padding:clamp(20px,1.7vw,34px);display:flex;align-items:center;min-height:110px;font-size:clamp(23px,1.55vw,31px);line-height:1.3;font-weight:700}.brief-note{padding:clamp(16px,1.5vw,28px);margin-bottom:18px}
+.quiz-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.quiz-head h2{font-size:clamp(32px,2.4vw,48px);margin:0}.quiz-tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.chip{padding:9px 18px;border:1px solid #ffffff50;border-radius:99px;background:#ffffff20;font-size:clamp(20px,1.3vw,27px);font-weight:800}.progress-track{height:12px;border-radius:99px;background:#ffffff40;overflow:hidden;margin:12px 0}.progress-fill{height:100%;width:5%;background:linear-gradient(90deg,#ff8d42,#ffd34d);transition:width .25s}.quiz-stage{flex:1;min-height:0;display:grid;grid-template-rows:minmax(280px,1.05fr) minmax(300px,1fr);gap:clamp(12px,1vw,20px)}.quiz-upper{min-height:0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,.5fr);gap:18px}.poster-viewport{min-height:0;display:flex}.poster{position:relative;isolation:isolate;display:none;width:100%;height:100%;min-height:280px;overflow:auto;border-radius:24px;padding:clamp(18px,1.5vw,32px);color:#12234c;flex-direction:column;justify-content:space-between;box-shadow:0 14px 35px #07123548}.poster.active{display:flex}.poster:before{content:"";position:absolute;z-index:-1;width:35%;aspect-ratio:1;right:-5%;top:-20%;border-radius:50%;background:#ffffff60}.poster-type{font-size:clamp(19px,1.3vw,27px);font-weight:900;letter-spacing:.08em}.poster h3{font:800 clamp(32px,2.9vw,62px)/1.07 Fraunces,serif;margin:5px 0}.poster .art{align-self:center;font-size:clamp(85px,7vw,170px);line-height:1;filter:drop-shadow(7px 10px 0 #15224c22)}.poster p{font-size:clamp(23px,1.8vw,38px);font-weight:800;line-height:1.15;margin:4px 0}.poster-detail{background:#ffffffe8;border-radius:16px;padding:clamp(12px,1vw,20px);font-size:clamp(21px,1.5vw,31px);font-weight:800;line-height:1.22}.quiz-meta{padding:clamp(20px,2vw,38px);display:flex;flex-direction:column;justify-content:center;gap:18px}.turn-strip{font-size:clamp(22px,1.5vw,30px);font-weight:800}.turn-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.turn-btn{min-height:60px;border:2px solid #ffffff68;border-radius:12px;background:#ffffff20;color:white;font-size:clamp(18px,1.15vw,25px);font-weight:800;cursor:pointer;overflow-wrap:anywhere}.question-area{min-height:0;display:flex;flex-direction:column;justify-content:center}.q{min-height:0}.question{font-size:clamp(32px,2.35vw,46px)!important;line-height:1.15;font-weight:800;margin:0 0 14px}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,.8vw,16px)}.choice{width:100%;min-height:clamp(76px,7.2vw,116px);padding:12px clamp(16px,1.2vw,25px);border:3px solid transparent;border-radius:16px;background:#fff;color:var(--ink);text-align:left;font:800 clamp(23px,1.5vw,31px)/1.17 "DM Sans",sans-serif;cursor:pointer;touch-action:manipulation}.choice:hover:not(:disabled){background:#e8f0ff}.choice.selected{border-color:#e6aa00;background:#fff4c9}.choice.correct{border-color:#2cca89;background:#d7ffe7}.choice.wrong{border-color:#f36c63;background:#ffe5df}.feedback{margin-top:12px;padding:16px 22px;border:2px solid #50dda3;border-radius:16px;background:#193e63;font-size:clamp(23px,1.5vw,31px);line-height:1.3}.feedback.incorrect{border-color:#ff9a80}.feedback h3{font-size:clamp(26px,1.8vw,36px);margin:0 0 5px}.timeout-panel{padding:20px;margin-top:12px;font-size:clamp(22px,1.5vw,30px)}
+.score-list,.result-list{display:grid;gap:clamp(12px,1.4vw,26px)}.score-list{flex:1;align-content:center}.score-row{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,auto);align-items:center;gap:clamp(12px,2vw,40px);padding:clamp(20px,2vw,40px);border-radius:20px;background:#fff;color:var(--ink);font-size:clamp(25px,1.8vw,36px)}.score-points{color:#1766dc;font-size:clamp(33px,2.7vw,54px);font-weight:900}.result-list{grid-template-columns:repeat(2,minmax(0,1fr));flex:1;align-content:center}.result-card{padding:clamp(18px,2vw,38px);font-size:clamp(23px,1.5vw,31px)}.reflection{padding:clamp(20px,2vw,40px);font-size:clamp(23px,1.6vw,32px);line-height:1.35}.reflection h3{font-size:clamp(31px,2.2vw,44px);margin:0 0 12px}.reflection p{margin:0 0 12px}.profile-panel{padding:clamp(25px,3vw,60px);font-size:clamp(25px,1.8vw,36px);line-height:1.45}.profile-panel h3{font-size:clamp(32px,2.3vw,46px)}.status{font-size:clamp(18px,1.1vw,23px);color:#ffe698}.starburst{position:fixed;left:50%;top:35%;font-size:80px;z-index:80;pointer-events:none;animation:star .9s forwards}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes star{to{opacity:0;transform:translateY(-130px) rotate(50deg) scale(1.5)}}
+
+.cover-illustration{position:relative;min-height:360px;aspect-ratio:1.25;overflow:hidden;border-radius:18px;background:linear-gradient(145deg,#f8d978,#f5a65c 48%,#e77e55);display:grid;place-items:center;color:#13234b}.cover-illustration:before{content:"";position:absolute;inset:8%;border:5px dashed #13234b55;border-radius:24px;transform:rotate(-5deg)}.magnifier{position:absolute;z-index:2;left:39%;top:23%;font-size:clamp(90px,9vw,170px);filter:drop-shadow(6px 8px 0 #13234b30)}.mini-ad{position:absolute;z-index:1;padding:16px 22px;border:3px solid #13234b;border-radius:16px;background:#fff;text-align:center;font-size:clamp(22px,2vw,36px);box-shadow:8px 9px 0 #13234b30;line-height:1.2}.mini-ad small{font-size:.55em}.ad-one{left:8%;top:12%;transform:rotate(-8deg)}.ad-two{right:8%;bottom:13%;transform:rotate(7deg)}.detective-note{position:absolute;left:10%;bottom:10%;z-index:3;padding:12px 18px;border-radius:14px;background:#101e49;color:#ffd34d;text-align:center;font-size:clamp(20px,1.8vw,32px);box-shadow:5px 6px 0 #13234b35}
+@media(max-height:850px) and (min-width:1051px){.app-main{padding-block:12px}.quiz-stage{grid-template-rows:minmax(230px,.9fr) minmax(290px,1.1fr)}.poster .art{font-size:clamp(65px,6vw,115px)}.poster h3{font-size:clamp(29px,2.3vw,48px)}.poster p{font-size:clamp(21px,1.5vw,30px)}.poster-detail{font-size:clamp(19px,1.3vw,26px)}.question{font-size:clamp(29px,2.1vw,40px)!important}.choice{min-height:70px;font-size:clamp(21px,1.45vw,28px)}}
+@media(max-width:1050px){.cover-layout{grid-template-columns:1fr}.cover-art img{max-height:420px}.grid-four{grid-template-columns:repeat(2,minmax(0,1fr))}.quiz-stage{display:flex;flex-direction:column}.quiz-upper{grid-template-columns:1fr}.poster-viewport{height:440px}.quiz-meta{padding:18px}.turn-options{grid-template-columns:repeat(4,minmax(0,1fr))}.screen{min-height:0}}
+@media(max-width:700px){.topbar,.bottom-bar{align-items:flex-start;flex-direction:column}.topbar .btn,.bottom-bar .btn{min-height:50px}.brief-grid,.choices,.result-list{grid-template-columns:1fr}.grid-four{grid-template-columns:repeat(2,minmax(0,1fr))}.poster-viewport{height:460px}.turn-options{grid-template-columns:repeat(2,minmax(0,1fr))}.score-row{grid-template-columns:1fr 1fr}.score-points{text-align:right}.hero-title{font-size:clamp(48px,10vw,72px)!important}.section-title{font-size:clamp(36px,7vw,52px)!important}.app-main{padding:16px}.screen-body{justify-content:flex-start}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+   <meta name="description" content="Media pembelajaran interaktif Bahasa Indonesia kelas VIII untuk menganalisis iklan komersial dan nonkomersial.">
+ </head>
+ <body data-template-id="__page-root" class="app-shell">
+  <header class="topbar">
+   <div class="brand">
+    🔎 ADVERTISING <em>DETECTIVE</em> <span id="header-progress" class="status" aria-live="polite"></span>
+   </div>
+   <nav class="actions" aria-label="Kontrol permainan"><button id="nav-pause" type="button" class="btn secondary" onclick="togglePause()"><span data-template-id="pause-label" class="canva-text">Ⅱ JEDA</span><span data-template-id="resume-label" class="canva-text hidden">▶ LANJUT</span></button> <button type="button" class="btn secondary" onclick="toggleFullscreen()">⛶ <span data-template-id="fullscreen-label" class="canva-text">LAYAR PENUH</span></button> <button type="button" class="btn danger canva-button" data-template-id="nav-reset" onclick="requestReset()">↺ RESET</button>
+   </nav>
+  </header>
+  <main class="app-main">
+   <section id="welcome" class="screen active">
+    <div class="cover-layout">
+     <div class="cover-copy">
+      <div class="eyebrow canva-text" data-template-id="welcome-kicker">
+       GAME SHOW • DETEKTIF PERIKLANAN
+      </div>
+      <h1 class="display hero-title canva-text" data-template-id="welcome-title">ADVERTISING DETECTIVE</h1>
+      <p class="body-copy font-extrabold canva-text" data-template-id="tagline" style="color:#ffd34d">BONGKAR PESAN, UJI EFEKTIVITAS!</p>
+      <p class="body-copy canva-text" data-template-id="welcome-question">Apakah kamu bisa menemukan pesan di balik sebuah iklan?</p>
+      <div class="hero-actions">
+       <button class="btn primary canva-button" data-template-id="start-button" onclick="show('teams')">MULAI PERMAINAN →</button><button class="btn secondary canva-button" data-template-id="instructions-button" onclick="show('briefing')">PETUNJUK</button><button class="btn secondary canva-button" data-template-id="profile-button" onclick="show('profile')">TENTANG MEDIA</button>
+      </div>
+     </div>
+     <div class="glass cover-art">
+      <div class="cover-illustration" role="img" aria-label="Ilustrasi papan investigasi detektif iklan">
+        <div class="magnifier">🔎</div><div class="mini-ad ad-one">🛍️<br><b>IKLAN</b><br><small>Pesan • Tujuan</small></div>
+        <div class="mini-ad ad-two">📣<br><b>ANALISIS</b><br><small>Fakta • Bukti</small></div>
+        <div class="detective-note">🕵️‍♀️<br><b>UNGKAP PESAN!</b></div>
+       </div>
+     </div>
+    </div>
+   </section>
+   <section id="teams" class="screen">
+    <div class="screen-body">
+     <div class="eyebrow">
+      01 / PERSIAPAN
+     </div>
+     <h2 class="display section-title canva-text" data-template-id="teams-title">SIAPA TIM DETEKTIFMU?</h2>
+     <p class="body-copy canva-text" data-template-id="teams-help">Guru dapat mengganti nama kelompok. Pilih kelompok yang akan mendapat giliran pertama.</p>
+     <div class="grid-four" id="team-cards"></div>
+     <div class="glass settings">
+      <p id="welcome-team" class="body-copy font-bold" aria-live="polite"></p><label for="timer-setting" class="field-label canva-text" data-template-id="timer-label">Waktu menjawab</label>
+      <div class="flex flex-wrap gap-6 items-center">
+       <select id="timer-setting" style="max-width:320px"><option value="0">Tanpa timer</option><option value="15">15 detik</option><option value="20" selected>20 detik</option><option value="30">30 detik</option></select><label class="flex items-center gap-3 field-label" for="sound-setting"><input id="sound-setting" type="checkbox" class="w-7 h-7"><span data-template-id="sound-label" class="canva-text">Efek suara benar</span></label>
+      </div>
+     </div><button class="btn primary canva-button self-start" data-template-id="ready-button" onclick="show('briefing')">SIAP BERMAIN →</button>
+    </div>
+   </section>
+   <section id="briefing" class="screen">
+    <div class="eyebrow">
+     02 / BRIEFING
+    </div>
+    <h2 class="display section-title canva-text" data-template-id="brief-title">SEBELUM MENJADI DETEKTIF!</h2>
+    <div class="brief-grid">
+     <article class="glass brief-card">
+      <h3 data-template-id="commercial-title" class="canva-text" style="color:#ffd34d">🛍️ IKLAN KOMERSIAL</h3>
+      <p data-template-id="commercial-description" class="canva-text">Iklan yang bertujuan menawarkan atau mempromosikan barang dan jasa untuk memperoleh keuntungan.</p>
+     </article>
+     <article class="glass brief-card">
+      <h3 data-template-id="social-title" class="canva-text" style="color:#ffd34d">📣 IKLAN NONKOMERSIAL</h3>
+      <p data-template-id="social-description" class="canva-text">Iklan yang bertujuan menyampaikan informasi, imbauan, atau ajakan untuk kepentingan masyarakat tanpa tujuan utama memperoleh keuntungan.</p>
+     </article>
+    </div>
+    <div class="grid-four brief-clues">
+     <div class="glass clue canva-card" data-template-id="clue-one">
+      🔎 PESAN: Apa yang ingin disampaikan?
+     </div>
+     <div class="glass clue canva-card" data-template-id="clue-two">
+      🎯 TUJUAN: Apa yang ingin dicapai?
+     </div>
+     <div class="glass clue canva-card" data-template-id="clue-three">
+      👥 AUDIENS: Siapa sasaran iklan?
+     </div>
+     <div class="glass clue canva-card" data-template-id="clue-four">
+      💡 EFEKTIVITAS: Apakah pesan dan ajakannya berhasil?
+     </div>
+    </div>
+    <p class="glass brief-note canva-text" data-template-id="brief-note">Iklan yang efektif memiliki pesan jelas, visual relevan, informasi memadai, dan ajakan yang sesuai tujuan. Ada 20 soal, masing-masing bernilai 5 poin. Diskusikan jawaban bersama kelompok!</p><button class="btn primary canva-button self-start" data-template-id="brief-start" onclick="begin()">MULAI LEVEL 1 →</button>
+   </section>
+   <section id="quiz" class="screen">
+    <div class="quiz-head">
+     <div>
+      <div class="eyebrow" id="level-label"></div>
+      <h2 id="question-count"></h2>
+     </div>
+     <div class="quiz-tools">
+      <span class="chip" id="timer-display" aria-live="polite"></span><button class="btn secondary canva-button" data-template-id="score-button" onclick="show('scoreboard')">★ LIHAT SKOR</button>
+     </div>
+    </div>
+    <div class="progress-track" role="progressbar" aria-label="Kemajuan soal" aria-valuemin="0" aria-valuemax="20" aria-valuenow="1" id="progress-track">
+     <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="quiz-stage">
+     <div class="quiz-upper">
+      <div class="poster-viewport">
+       <article class="poster canva-card" data-template-id="poster-tumbler" style="background:linear-gradient(135deg,#8ce2ea,#d4fff1)">
+        <span class="poster-type">PRODUK • KOMERSIAL</span>
+        <h3 data-template-id="poster-tumbler-title" class="canva-text">SEGARSIP TUMBLER</h3>
+        <div class="art" aria-hidden="true">
+         🥤
+        </div>
+        <p data-template-id="poster-tumbler-slogan" class="canva-text">Bawa botol isi ulangmu. Kurangi botol sekali pakai.</p>
+        <div class="poster-detail canva-text" data-template-id="poster-tumbler-detail">
+         Kapasitas 600 ml | Rp35.000 | Tersedia di koperasi sekolah.
+        </div>
+       </article>
+       <article class="poster canva-card" data-template-id="poster-fitbite" style="background:linear-gradient(135deg,#ffc983,#ffe9ab)">
+        <span class="poster-type">CAMILAN • KOMERSIAL</span>
+        <h3 data-template-id="poster-fitbite-title" class="canva-text">FITBITE OAT SNACK</h3>
+        <div class="art" aria-hidden="true">
+         🍪
+        </div>
+        <div class="poster-detail canva-text" data-template-id="poster-fitbite-detail">
+         Camilan praktis dengan bahan oat. Tersedia dalam tiga rasa. Coba FitBite hari ini!
+        </div>
+       </article>
+       <article class="poster canva-card" data-template-id="poster-slim" style="background:linear-gradient(135deg,#ffd5db,#f4aaad)">
+        <span class="poster-type">MINUMAN • KOMERSIAL</span>
+        <h3 data-template-id="poster-slim-title" class="canva-text">SLIM FAST DRINK</h3>
+        <div class="art" aria-hidden="true">
+         🥛
+        </div>
+        <div class="poster-detail canva-text" data-template-id="poster-slim-detail">
+         Turun 5 kg hanya dalam 2 hari tanpa olahraga! Dijamin berhasil!
+        </div>
+       </article>
+       <article class="poster canva-card" data-template-id="poster-book" style="background:linear-gradient(135deg,#b7b9ff,#e5e1ff)">
+        <span class="poster-type">PERLENGKAPAN • KOMERSIAL</span>
+        <h3 data-template-id="poster-book-title" class="canva-text">BUKU TULIS CERDAS</h3>
+        <div class="art" aria-hidden="true">
+         📓
+        </div>
+        <p data-template-id="poster-book-slogan" class="canva-text">Catatan rapi, ide berani!</p>
+        <div class="poster-detail canva-text" data-template-id="poster-book-detail">
+         80 lembar.
+        </div>
+       </article>
+       <article class="poster canva-card" data-template-id="poster-shoes" style="background:linear-gradient(135deg,#a4d6ff,#d6efff)">
+        <span class="poster-type">SEPATU • KOMERSIAL</span>
+        <h3 data-template-id="poster-shoes-title" class="canva-text">STEPON SHOES</h3>
+        <div class="art" aria-hidden="true">
+         👟
+        </div>
+        <p data-template-id="poster-shoes-slogan" class="canva-text">Langkah nyaman setiap hari.</p>
+        <div class="poster-detail canva-text" data-template-id="poster-shoes-detail">
+         Sol lentur, tersedia ukuran 36–42. Tersedia di Toko Sport Center.
+        </div>
+       </article>
+       <article class="poster canva-card" data-template-id="poster-stop" style="background:linear-gradient(135deg,#ffcbbb,#ffe7d9)">
+        <span class="poster-type">KAMPANYE • NONKOMERSIAL</span>
+        <h3 data-template-id="poster-stop-title" class="canva-text">BERANI BERKATA STOP!</h3>
+        <div class="art" aria-hidden="true">
+         ✋
+        </div>
+        <p data-template-id="poster-stop-slogan" class="canva-text">Candaan berhenti saat teman terluka.</p>
+        <div class="poster-detail canva-text" data-template-id="poster-stop-detail">
+         Jangan ikut menertawakan. Laporkan perundungan kepada guru.
+        </div>
+       </article>
+       <article class="poster canva-card" data-template-id="poster-read" style="background:linear-gradient(135deg,#ffe7a1,#f9d18a)">
+        <span class="poster-type">LITERASI • NONKOMERSIAL</span>
+        <h3 data-template-id="poster-read-title" class="canva-text">15 MENIT MEMBACA SETIAP HARI</h3>
+        <div class="art" aria-hidden="true">
+         📚
+        </div>
+        <div class="poster-detail canva-text" data-template-id="poster-read-detail">
+         Temukan pengetahuan baru. Pinjam buku di perpustakaan. Mulai hari ini!
+        </div>
+       </article>
+       <article class="poster canva-card" data-template-id="poster-waste" style="background:linear-gradient(135deg,#b6edaa,#e7ffc9)">
+        <span class="poster-type">LINGKUNGAN • NONKOMERSIAL</span>
+        <h3 data-template-id="poster-waste-title" class="canva-text">PILAH SAMPAH, JAGA LINGKUNGAN!</h3>
+        <div class="art" aria-hidden="true">
+         ♻️
+        </div>
+        <div class="poster-detail canva-text" data-template-id="poster-waste-detail">
+         ORGANIK: sisa makanan dan daun. ANORGANIK: plastik dan kertas. Mulai dari kelasmu!
+        </div>
+       </article>
+       <article class="poster canva-card" data-template-id="poster-water" style="background:linear-gradient(135deg,#a5dfff,#e1faff)">
+        <span class="poster-type">HEMAT AIR • NONKOMERSIAL</span>
+        <h3 data-template-id="poster-water-title" class="canva-text">SATU TETES BERARTI</h3>
+        <div class="art" aria-hidden="true">
+         🚰✋
+        </div>
+        <p data-template-id="poster-water-slogan" class="canva-text">Tutup keran setelah digunakan.</p>
+        <div class="poster-detail canva-text" data-template-id="poster-water-detail">
+         Hemat air mulai sekarang!
+        </div>
+       </article>
+       <article class="poster canva-card" data-template-id="poster-helmet" style="background:linear-gradient(135deg,#ffd179,#ffebaf)">
+        <span class="poster-type">KESELAMATAN • NONKOMERSIAL</span>
+        <h3 data-template-id="poster-helmet-title" class="canva-text">HELM TERPASANG, PERJALANAN LEBIH AMAN!</h3>
+        <div class="art" aria-hidden="true">
+         🪖✓
+        </div>
+        <div class="poster-detail canva-text" data-template-id="poster-helmet-detail">
+         Pastikan tali helm terkunci sebelum berkendara.
+        </div>
+       </article>
+      </div>
+      <aside class="glass quiz-meta">
+       <div class="eyebrow">
+        TIM INVESTIGASI
+       </div>
+       <div class="turn-strip">
+        GILIRAN:
+        <div id="turn-options" class="turn-options"></div>
+       </div>
+      </aside>
+     </div>
+     <div class="question-area">
+      <div id="questions">
+       <article class="q" data-answer="1">
+        <h2 class="question canva-text" data-template-id="q1">Apa pesan utama iklan tersebut?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q1a">A. Mengajak masyarakat membeli minuman kemasan.</button><button class="choice canva-button" data-template-id="q1b">B. Mengajak menggunakan tumbler untuk mengurangi botol sekali pakai.</button><button class="choice canva-button" data-template-id="q1c">C. Menginformasikan cara membuat botol plastik.</button><button class="choice canva-button" data-template-id="q1d">D. Mengajak masyarakat membuang botol minuman.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f1">Iklan mengajak audiens menggunakan tumbler yang dapat diisi ulang sebagai upaya mengurangi penggunaan botol sekali pakai.</p>
+       </article>
+       <article class="q hidden" data-answer="1">
+        <h2 class="question canva-text" data-template-id="q2">Mengapa iklan tersebut cukup efektif dalam menawarkan produknya?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q2a">A. Karena hanya menggunakan gambar produk.</button><button class="choice canva-button" data-template-id="q2b">B. Karena mencantumkan harga, kapasitas, tempat pembelian, dan manfaat produk.</button><button class="choice canva-button" data-template-id="q2c">C. Karena menggunakan banyak warna.</button><button class="choice canva-button" data-template-id="q2d">D. Karena tidak mencantumkan informasi produk.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f2">Informasi harga, kapasitas, tempat pembelian, dan manfaat membantu calon pembeli memahami penawaran.</p>
+       </article>
+       <article class="q hidden" data-answer="1">
+        <h2 class="question canva-text" data-template-id="q3">Siapa target audiens yang paling mungkin disasar iklan tersebut?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q3a">A. Orang yang sedang mencari peralatan olahraga.</button><button class="choice canva-button" data-template-id="q3b">B. Orang yang membutuhkan camilan praktis untuk aktivitas sehari-hari.</button><button class="choice canva-button" data-template-id="q3c">C. Orang yang ingin membeli perlengkapan sekolah.</button><button class="choice canva-button" data-template-id="q3d">D. Orang yang membutuhkan jasa transportasi.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f3">Kata praktis dan penyebutan camilan menunjukkan bahwa produk ditujukan kepada orang yang membutuhkan makanan ringan untuk aktivitas sehari-hari.</p>
+       </article>
+       <article class="q hidden" data-answer="2">
+        <h2 class="question canva-text" data-template-id="q4">Bagian manakah yang berfungsi sebagai ajakan langsung kepada audiens?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q4a">A. Tiga pilihan rasa.</button><button class="choice canva-button" data-template-id="q4b">B. Nama produk.</button><button class="choice canva-button" data-template-id="q4c">C. Kalimat "Coba FitBite hari ini!"</button><button class="choice canva-button" data-template-id="q4d">D. Gambar kemasan produk.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f4">Kalimat tersebut merupakan ajakan langsung atau call to action yang mendorong audiens mencoba produk.</p>
+       </article>
+       <article class="q hidden" data-answer="3">
+        <h2 class="question canva-text" data-template-id="q5">Apa kelemahan paling serius dari iklan tersebut?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q5a">A. Ukuran tulisan terlalu kecil.</button><button class="choice canva-button" data-template-id="q5b">B. Tidak menggunakan gambar produk.</button><button class="choice canva-button" data-template-id="q5c">C. Nama produknya terlalu panjang.</button><button class="choice canva-button" data-template-id="q5d">D. Memuat klaim berlebihan yang tidak disertai bukti.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f5">Klaim penurunan berat badan yang sangat cepat dan dijamin berhasil membutuhkan bukti yang dapat dipercaya. Klaim tersebut berpotensi menyesatkan.</p>
+       </article>
+       <article class="q hidden" data-answer="2">
+        <h2 class="question canva-text" data-template-id="q6">Bagaimana penilaian paling tepat terhadap efektivitas iklan tersebut?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q6a">A. Sangat efektif karena menjanjikan hasil cepat.</button><button class="choice canva-button" data-template-id="q6b">B. Efektif karena tidak memerlukan informasi pendukung.</button><button class="choice canva-button" data-template-id="q6c">C. Kurang meyakinkan karena klaimnya berlebihan dan tidak memiliki bukti.</button><button class="choice canva-button" data-template-id="q6d">D. Efektif karena menggunakan kata dijamin.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f6">Efektivitas iklan tidak hanya dinilai dari kemampuannya menarik perhatian, tetapi juga dari kredibilitas informasi yang disampaikan.</p>
+       </article>
+       <article class="q hidden" data-answer="1">
+        <h2 class="question canva-text" data-template-id="q7">Apa pesan utama iklan tersebut?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q7a">A. Mengajak siswa mengikuti lomba menulis.</button><button class="choice canva-button" data-template-id="q7b">B. Menawarkan buku tulis untuk menunjang kegiatan mencatat.</button><button class="choice canva-button" data-template-id="q7c">C. Mengajak siswa membaca buku cerita.</button><button class="choice canva-button" data-template-id="q7d">D. Menawarkan jasa pengetikan tugas.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f7">Nama produk dan informasi jumlah lembar menunjukkan bahwa iklan mempromosikan buku tulis.</p>
+       </article>
+       <article class="q hidden" data-answer="2">
+        <h2 class="question canva-text" data-template-id="q8">Informasi tambahan apa yang paling membantu calon pembeli mengambil keputusan?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q8a">A. Cerita tentang sejarah kertas.</button><button class="choice canva-button" data-template-id="q8b">B. Nama seluruh siswa yang menggunakan buku tersebut.</button><button class="choice canva-button" data-template-id="q8c">C. Harga produk dan tempat pembelian.</button><button class="choice canva-button" data-template-id="q8d">D. Gambar pemandangan alam.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f8">Harga dan lokasi pembelian merupakan informasi penting bagi calon pembeli.</p>
+       </article>
+       <article class="q hidden" data-answer="0">
+        <h2 class="question canva-text" data-template-id="q9">Apa hubungan antara gambar sepatu dan slogan dalam iklan tersebut?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q9a">A. Gambar memperjelas produk yang ditawarkan dan slogan menonjolkan manfaat yang dijanjikan.</button><button class="choice canva-button" data-template-id="q9b">B. Gambar tidak berkaitan dengan isi iklan.</button><button class="choice canva-button" data-template-id="q9c">C. Slogan menjelaskan cara membuat sepatu.</button><button class="choice canva-button" data-template-id="q9d">D. Gambar digunakan hanya sebagai hiasan tanpa fungsi.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f9">Visual menunjukkan produk, sedangkan slogan memperkuat pesan tentang kenyamanan.</p>
+       </article>
+       <article class="q hidden" data-answer="2">
+        <h2 class="question canva-text" data-template-id="q10">Apa yang masih dapat diperkuat agar iklan lebih informatif bagi calon pembeli?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q10a">A. Menghilangkan nama produk.</button><button class="choice canva-button" data-template-id="q10b">B. Menghapus informasi ukuran.</button><button class="choice canva-button" data-template-id="q10c">C. Menambahkan informasi harga atau cara pemesanan.</button><button class="choice canva-button" data-template-id="q10d">D. Mengganti slogan dengan paragraf panjang.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f10">Harga dan cara pemesanan akan membantu calon pembeli mengambil tindakan setelah melihat iklan.</p>
+       </article>
+       <article class="q hidden" data-answer="1">
+        <h2 class="question canva-text" data-template-id="q11">Apa pesan utama iklan tersebut?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q11a">A. Mengajak siswa mengikuti perlombaan.</button><button class="choice canva-button" data-template-id="q11b">B. Mengajak siswa menghentikan dan melaporkan tindakan perundungan.</button><button class="choice canva-button" data-template-id="q11c">C. Mengajak siswa bercanda dengan teman.</button><button class="choice canva-button" data-template-id="q11d">D. Mengajak siswa menghindari kegiatan sekolah.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f11">Poster mengajak siswa tidak mendukung perundungan dan mengambil tindakan dengan melaporkannya.</p>
+       </article>
+       <article class="q hidden" data-answer="2">
+        <h2 class="question canva-text" data-template-id="q12">Mengapa kalimat "Candaan berhenti saat teman terluka" efektif digunakan?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q12a">A. Karena membuat pembaca mengabaikan masalah.</button><button class="choice canva-button" data-template-id="q12b">B. Karena menyampaikan informasi harga.</button><button class="choice canva-button" data-template-id="q12c">C. Karena menyentuh kesadaran audiens dan mengingatkan dampak perilaku.</button><button class="choice canva-button" data-template-id="q12d">D. Karena menjelaskan cara membeli produk.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f12">Kalimat tersebut membangun empati dan mengingatkan bahwa tindakan yang dianggap bercanda dapat menyakiti orang lain.</p>
+       </article>
+       <article class="q hidden" data-answer="0">
+        <h2 class="question canva-text" data-template-id="q13">Apa tujuan utama iklan tersebut?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q13a">A. Mengajak siswa membangun kebiasaan membaca.</button><button class="choice canva-button" data-template-id="q13b">B. Menawarkan buku untuk dijual.</button><button class="choice canva-button" data-template-id="q13c">C. Mempromosikan jasa penerbitan buku.</button><button class="choice canva-button" data-template-id="q13d">D. Mengajak siswa mengikuti lomba olahraga.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f13">Poster mendorong kebiasaan membaca dan memanfaatkan perpustakaan.</p>
+       </article>
+       <article class="q hidden" data-answer="3">
+        <h2 class="question canva-text" data-template-id="q14">Siapa target audiens yang paling tepat?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q14a">A. Pedagang buku.</button><button class="choice canva-button" data-template-id="q14b">B. Pengusaha penerbitan.</button><button class="choice canva-button" data-template-id="q14c">C. Wisatawan.</button><button class="choice canva-button" data-template-id="q14d">D. Siswa atau warga sekolah.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f14">Ajakan membaca setiap hari dan meminjam buku di perpustakaan menunjukkan sasaran warga sekolah.</p>
+       </article>
+       <article class="q hidden" data-answer="2">
+        <h2 class="question canva-text" data-template-id="q15">Apa pesan utama iklan tersebut?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q15a">A. Mengajak membeli tempat sampah.</button><button class="choice canva-button" data-template-id="q15b">B. Mengajak membuang semua sampah di satu tempat.</button><button class="choice canva-button" data-template-id="q15c">C. Mengajak memilah sampah sesuai jenisnya.</button><button class="choice canva-button" data-template-id="q15d">D. Mengajak mengumpulkan makanan.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f15">Poster menjelaskan perbedaan sampah organik dan anorganik serta mengajak audiens mempraktikkan pemilahan.</p>
+       </article>
+       <article class="q hidden" data-answer="1">
+        <h2 class="question canva-text" data-template-id="q16">Apa yang membuat iklan tersebut efektif menyampaikan informasi?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q16a">A. Hanya menggunakan slogan tanpa penjelasan.</button><button class="choice canva-button" data-template-id="q16b">B. Memberikan contoh jenis sampah dan ajakan tindakan yang jelas.</button><button class="choice canva-button" data-template-id="q16c">C. Menggunakan banyak kalimat yang tidak berhubungan.</button><button class="choice canva-button" data-template-id="q16d">D. Tidak menjelaskan tindakan yang harus dilakukan.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f16">Contoh konkret dan ajakan langsung membuat pesan lebih mudah dipahami dan diterapkan.</p>
+       </article>
+       <article class="q hidden" data-answer="3">
+        <h2 class="question canva-text" data-template-id="q17">Apa pesan yang ingin disampaikan melalui perpaduan gambar dan slogan?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q17a">A. Mengajak masyarakat membeli keran baru.</button><button class="choice canva-button" data-template-id="q17b">B. Mengajak masyarakat menggunakan air sebanyak-banyaknya.</button><button class="choice canva-button" data-template-id="q17c">C. Mengajak masyarakat memperbaiki seluruh saluran air.</button><button class="choice canva-button" data-template-id="q17d">D. Mengajak masyarakat menghemat air melalui kebiasaan menutup keran.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f17">Gambar dan slogan saling mendukung pesan tentang pentingnya menghemat air.</p>
+       </article>
+       <article class="q hidden" data-answer="0">
+        <h2 class="question canva-text" data-template-id="q18">Mengapa poster tersebut cukup efektif?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q18a">A. Karena gambar memperlihatkan tindakan nyata yang sesuai dengan ajakan.</button><button class="choice canva-button" data-template-id="q18b">B. Karena tidak memerlukan slogan.</button><button class="choice canva-button" data-template-id="q18c">C. Karena menggunakan kalimat yang sulit dipahami.</button><button class="choice canva-button" data-template-id="q18d">D. Karena hanya menampilkan gambar tanpa pesan.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f18">Visual tindakan menutup keran memperjelas ajakan sehingga audiens lebih mudah memahami tindakan yang diharapkan.</p>
+       </article>
+       <article class="q hidden" data-answer="1">
+        <h2 class="question canva-text" data-template-id="q19">Apa pesan utama iklan tersebut?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q19a">A. Mengajak masyarakat membeli sepeda motor.</button><button class="choice canva-button" data-template-id="q19b">B. Mengingatkan pengendara menggunakan helm dengan benar.</button><button class="choice canva-button" data-template-id="q19c">C. Mengajak masyarakat berkendara lebih cepat.</button><button class="choice canva-button" data-template-id="q19d">D. Mengajak masyarakat mengganti kendaraan.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f19">Iklan mengingatkan pengendara untuk menggunakan helm dengan benar, termasuk memastikan talinya terkunci.</p>
+       </article>
+       <article class="q hidden" data-answer="2">
+        <h2 class="question canva-text" data-template-id="q20">Apa keunggulan utama iklan tersebut dalam mendorong perubahan perilaku?</h2>
+        <div class="choices">
+         <button class="choice canva-button" data-template-id="q20a">A. Hanya menampilkan nama kendaraan.</button><button class="choice canva-button" data-template-id="q20b">B. Menggunakan slogan tanpa tindakan yang jelas.</button><button class="choice canva-button" data-template-id="q20c">C. Menyampaikan tindakan spesifik yang dapat langsung dilakukan audiens.</button><button class="choice canva-button" data-template-id="q20d">D. Menampilkan informasi yang tidak berhubungan dengan keselamatan.</button>
+        </div>
+        <p class="explanation hidden canva-text" data-template-id="f20">Ajakan memeriksa dan mengunci tali helm merupakan tindakan konkret yang dapat langsung diterapkan.</p>
+       </article>
+      </div>
+      <div id="feedback" class="feedback hidden" aria-live="polite">
+       <h3 id="feedback-title"></h3>
+       <div id="feedback-explanation"></div>
+      </div>
+      <div id="timeout-panel" class="glass timeout-panel hidden" aria-live="polite">
+       <p data-template-id="timeout-message" class="canva-text font-bold">Waktu habis! Tidak ada pengurangan poin.</p>
+       <div class="actions">
+        <button class="btn primary canva-button" data-template-id="untimed-button" onclick="continueUntimed()">JAWAB TANPA TIMER</button><button class="btn secondary canva-button" data-template-id="skip-button" onclick="skipQuestion()">LEWATI SOAL</button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section id="scoreboard" class="screen">
+    <div class="eyebrow">
+     PAPAN SKOR / LIVE
+    </div>
+    <h2 class="display section-title canva-text" data-template-id="scoreboard-title">PAPAN SKOR DETEKTIF</h2>
+    <div id="score-list" class="score-list"></div><button class="btn primary canva-button self-start mt-5" data-template-id="score-return" onclick="show(returnScreen)">KEMBALI KE PERMAINAN</button>
+   </section>
+   <section id="results" class="screen">
+    <div class="eyebrow">
+     🏆 MISSION COMPLETE
+    </div>
+    <h2 class="display section-title canva-text" data-template-id="results-title">ADVERTISING DETECTIVE — MISSION COMPLETE!</h2>
+    <p id="winner" class="body-copy font-black" style="color:#ffd34d"></p>
+    <div id="result-list" class="result-list"></div>
+    <div class="actions mt-5">
+     <button class="btn primary canva-button" data-template-id="replay-button" onclick="resetGame(true)">ULANGI PERMAINAN</button><button class="btn secondary canva-button" data-template-id="results-home" onclick="show('welcome')">KEMBALI KE BERANDA</button>
+    </div>
+   </section>
+   <section id="reflection" class="screen">
+    <div class="screen-body">
+     <div class="eyebrow">
+      DISKUSI BERSAMA
+     </div>
+     <div class="glass reflection">
+      <h2 data-template-id="reflection-title" class="canva-text" style="color:#ffd34d">REFLEKSI &amp; DEBRIEFING</h2>
+      <p data-template-id="reflection-one" class="canva-text">1. Apa perbedaan pesan utama iklan komersial dan nonkomersial?</p>
+      <p data-template-id="reflection-two" class="canva-text">2. Apakah iklan yang menarik secara visual selalu efektif? Jelaskan.</p>
+      <p data-template-id="reflection-three" class="canva-text">3. Apa saja hal yang harus diperhatikan ketika menilai efektivitas iklan?</p>
+      <p data-template-id="reflection-message" class="canva-text font-black" style="color:#ffd34d">IKLAN YANG BAIK BUKAN HANYA MENARIK PERHATIAN, TETAPI JUGA MENYAMPAIKAN PESAN SECARA JELAS, TEPAT, DAN BERTANGGUNG JAWAB.</p>
+     </div><button class="btn primary self-start mt-5" type="button" onclick="show('results')">KEMBALI KE HASIL</button>
+    </div>
+   </section>
+   <section id="profile" class="screen">
+    <div class="screen-body">
+     <div class="eyebrow">
+      TENTANG MEDIA
+     </div>
+     <h2 class="display section-title canva-text" data-template-id="profile-title">ADVERTISING DETECTIVE</h2>
+     <div class="glass profile-panel">
+      <p data-template-id="profile-subject" class="canva-text">Mata pelajaran: Bahasa Indonesia • Kelas: VIII SMP</p>
+      <h3 data-template-id="profile-developer" class="canva-text" style="color:#ffd34d">Evita Hersa Adellia Meisya Putri, S.Pd.,Gr.</h3>
+      <p data-template-id="profile-description" class="canva-text">Media pembelajaran interaktif ini dikembangkan untuk melatih kemampuan peserta didik dalam menginterpretasikan pesan serta menganalisis efektivitas iklan komersial dan nonkomersial melalui kuis edukatif berbasis teknologi Interactive Flat Panel.</p>
+      <p data-template-id="profile-copyright" class="canva-text">© 2026 Evita Hersa Adellia Meisya Putri, S.Pd.,Gr.</p>
+     </div><button class="btn primary canva-button self-start mt-5" data-template-id="profile-home" onclick="show('welcome')">KEMBALI KE BERANDA</button>
+    </div>
+   </section>
+  </main>
+  <footer class="bottom-bar">
+   <p id="fullscreen-help" class="status hidden canva-text" role="status" data-template-id="fullscreen-help">Jika layar penuh tidak tersedia di Canva, gunakan tombol layar penuh pada browser atau perangkat Anda.</p>
+   <div class="actions">
+    <button type="button" class="btn secondary canva-button" data-template-id="nav-back" onclick="goBack()">← KEMBALI</button><button type="button" class="btn secondary canva-button" data-template-id="nav-home" onclick="show('welcome')">⌂ HOME</button><button type="button" id="reflection-button" class="btn secondary hidden" onclick="show('reflection')">REFLEKSI →</button><button type="button" id="lock-button" class="btn primary canva-button quiz-only hidden" data-template-id="lock-label" onclick="lockAnswer()" disabled>KUNCI JAWABAN</button><button type="button" id="next-button" class="btn secondary canva-button quiz-only hidden" data-template-id="next-label" onclick="nextQuestion()" disabled>LANJUT →</button>
+   </div>
+  </footer>
+  <div id="reset-dialog" class="hidden fixed inset-0 z-50 bg-blue-950/90 p-4 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="reset-title">
+   <div class="glass p-8 w-full" style="max-width:680px">
+    <h2 id="reset-title" data-template-id="reset-title" class="canva-text section-title">ULANGI PERMAINAN?</h2>
+    <p data-template-id="reset-warning" class="canva-text body-copy">Semua skor dan progres sesi ini akan dihapus.</p>
+    <div class="actions">
+     <button class="btn danger canva-button" data-template-id="reset-confirm" onclick="resetGame(true)">YA, RESET</button><button class="btn secondary canva-button" data-template-id="reset-cancel" onclick="closeReset()">BATAL</button>
+    </div>
+   </div>
+  </div>
+  <script>
+const $=id=>document.getElementById(id);
+const screens=[...document.querySelectorAll('.screen')],qs=[...document.querySelectorAll('.q')],posters=[...document.querySelectorAll('.poster')];
+const posterMap=[0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9],defaults=['TIM A','TIM B','TIM C','TIM D'];
+let names=[...defaults],scores=[0,0,0,0],correct=[0,0,0,0],wrong=[0,0,0,0],records=Array(20).fill(null),index=0,turn=0,selected=null,screen='welcome',returnScreen='quiz',seconds=20,tick=null,paused=false,timedOut=false,untimed=false,audioContext=null;
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderTeams(){$('team-cards').innerHTML=names.map((n,i)=>`<div><button type="button" class="team-card ${turn===i?'selected':''}" onclick="setTurn(${i})"><span>TIM ${'ABCD'[i]}</span><strong>${escapeHtml(n)}</strong></button><label class="field-label" for="name-${i}">Nama Tim ${'ABCD'[i]}</label><input id="name-${i}" type="text" maxlength="24" value="${escapeHtml(n)}" oninput="renameTeam(${i},this.value)"></div>`).join('');renderTurn()}
+function renameTeam(i,value){names[i]=value.trim()||defaults[i];$('team-cards').children[i].querySelector('strong').textContent=names[i];renderTurn();renderScores()}
+function setTurn(i){if(records[index]&&screen==='quiz')return;turn=i;document.querySelectorAll('.team-card').forEach((e,j)=>e.classList.toggle('selected',i===j));renderTurn()}
+function renderTurn(){$('welcome-team').textContent=`Selamat datang, ${names[turn]}!`;$('turn-options').innerHTML=names.map((n,i)=>`<button type="button" class="turn-btn ${turn===i?'selected':''}" ${records[index]?'disabled':''} onclick="setTurn(${i})">${escapeHtml(n)}</button>`).join('')}
+function show(id){if(screen==='quiz'&&id!=='quiz')stopClock();if(id==='scoreboard')returnScreen=screen;screens.forEach(e=>e.classList.toggle('active',e.id===id));screen=id;$('lock-button').classList.toggle('hidden',id!=='quiz');$('next-button').classList.toggle('hidden',id!=='quiz');$('reflection-button').classList.toggle('hidden',id!=='results');if(id==='quiz'){renderQuestion();startClock()}else $('header-progress').textContent='';if(id==='scoreboard'||id==='results')renderScores();window.scrollTo(0,0)}
+function begin(){show('quiz')}
+async function toggleFullscreen(){const help=$('fullscreen-help');help.classList.add('hidden');try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else help.classList.remove('hidden')}catch(e){help.classList.remove('hidden')}}
+function goBack(){if(screen==='quiz'){if(index>0){index--;seconds=Number($('timer-setting').value);untimed=false;show('quiz')}else show('briefing')}else if(screen==='scoreboard')show(returnScreen);else if(screen==='reflection')show('results');else if(screen==='results')show('scoreboard');else if(screen==='briefing')show('teams');else show('welcome')}
+function renderQuestion(){qs.forEach((q,i)=>q.classList.toggle('hidden',i!==index));posters.forEach((p,i)=>p.classList.toggle('active',i===posterMap[index]));$('level-label').textContent=index<4?'LEVEL 1 — BONGKAR PESAN IKLAN':index<10?'LEVEL 2 — UJI KREDIBILITAS DAN INFORMASI':index<16?'LEVEL 3 — BACA PESAN SOSIAL':'LEVEL 4 — ANALISIS EFEKTIVITAS IKLAN';$('question-count').textContent=`SOAL ${index+1} / 20`;$('header-progress').textContent=`• SOAL ${index+1}/20`;$('progress-fill').style.width=`${(index+1)*5}%`;$('progress-track').setAttribute('aria-valuenow',index+1);selected=null;timedOut=false;$('timeout-panel').classList.add('hidden');$('feedback').classList.add('hidden');const record=records[index];qs[index].querySelectorAll('.choice').forEach((b,i)=>{b.disabled=!!record;b.classList.toggle('selected',record?.choice===i);b.classList.toggle('correct',!!record&&i===Number(qs[index].dataset.answer));b.classList.toggle('wrong',!!record&&i===record.choice&&!record.correct);b.onclick=()=>choose(i)});$('lock-button').disabled=true;$('next-button').disabled=!record;if(record)displayFeedback(record);renderTurn();updateTimerDisplay()}
+function choose(i){if(records[index]||timedOut||paused)return;selected=i;qs[index].querySelectorAll('.choice').forEach((b,j)=>b.classList.toggle('selected',j===i));$('lock-button').disabled=false}
+function lockAnswer(){if(selected===null||records[index]||timedOut||paused)return;const right=Number(qs[index].dataset.answer),isCorrect=selected===right;records[index]={choice:selected,correct:isCorrect,team:turn};if(isCorrect){scores[turn]+=5;correct[turn]++;celebrate()}else wrong[turn]++;stopClock();renderQuestion();renderScores()}
+function displayFeedback(record){$('feedback').classList.remove('hidden');$('feedback').classList.toggle('incorrect',!record.correct);$('feedback-title').textContent=record.correct?'HEBAT! PETUNJUK BERHASIL DITEMUKAN!':'BELUM TEPAT! PERHATIKAN KEMBALI PESAN IKLAN.';const holder=$('feedback-explanation');holder.replaceChildren();const explanation=qs[index].querySelector('.explanation').cloneNode(true);explanation.removeAttribute('data-template-id');explanation.classList.remove('hidden');holder.appendChild(explanation)}
+function celebrate(){const s=document.createElement('div');s.className='starburst';s.textContent='⭐ ✨ ⭐';document.body.appendChild(s);setTimeout(()=>s.remove(),950);if($('sound-setting').checked){try{audioContext||=new (window.AudioContext||window.webkitAudioContext)();audioContext.resume();[523,659,784].forEach((frequency,i)=>{const o=audioContext.createOscillator(),g=audioContext.createGain(),t=audioContext.currentTime+i*.11;o.frequency.value=frequency;o.type='sine';g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.09,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.22);o.connect(g).connect(audioContext.destination);o.start(t);o.stop(t+.23)})}catch(e){}}}
+function nextQuestion(){if(!records[index])return;if(index===19){show('results');return}index++;seconds=Number($('timer-setting').value);untimed=false;show('quiz')}
+function skipQuestion(){if(!timedOut||records[index])return;records[index]={skipped:true,team:turn};$('timeout-panel').classList.add('hidden');stopClock();if(index===19)show('results');else{index++;seconds=Number($('timer-setting').value);untimed=false;show('quiz')}}
+function continueUntimed(){timedOut=false;untimed=true;$('timeout-panel').classList.add('hidden');seconds=0;updateTimerDisplay()}
+function stopClock(){clearInterval(tick);tick=null}
+function updateTimerDisplay(){const limit=Number($('timer-setting').value);$('timer-display').textContent=paused?'JEDA':records[index]?'TERKUNCI':timedOut?'WAKTU HABIS':untimed||!limit?'TANPA TIMER':`${seconds} DETIK`}
+function startClock(){stopClock();if(screen!=='quiz'||records[index]||timedOut||paused||untimed)return;const limit=Number($('timer-setting').value);if(!limit){updateTimerDisplay();return}if(seconds<=0||seconds>limit)seconds=limit;updateTimerDisplay();tick=setInterval(()=>{if(screen!=='quiz'||paused)return;seconds--;updateTimerDisplay();if(seconds<=0){stopClock();timedOut=true;$('lock-button').disabled=true;$('timeout-panel').classList.remove('hidden');updateTimerDisplay()}},1000)}
+function togglePause(){if(screen!=='quiz')return;paused=!paused;if(paused)stopClock();else if(!timedOut)startClock();$('pause-label').classList.toggle('hidden',paused);$('resume-label').classList.toggle('hidden',!paused);updateTimerDisplay()}
+function renderScores(){const row=i=>`<div class="score-row"><strong>${escapeHtml(names[i])}</strong><span>✓ ${correct[i]} benar</span><span>✕ ${wrong[i]} salah</span><span class="score-points">${scores[i]} <small>poin</small></span></div>`;$('score-list').innerHTML=names.map((_,i)=>row(i)).join('');$('result-list').innerHTML=names.map((_,i)=>`<div class="glass result-card"><div class="font-black">🏅 ${escapeHtml(names[i])}</div><div>${correct[i]} benar · ${wrong[i]} salah · ${scores[i]} poin</div><div class="font-black mt-2" style="color:#ffd34d">${scores[i]>=90?'MASTER ADVERTISING DETECTIVE':scores[i]>=75?'EXPERT ADVERTISING ANALYST':scores[i]>=60?'SMART AD DETECTIVE':'RISING AD DETECTIVE'}</div></div>`).join('');const max=Math.max(...scores),leaders=names.filter((_,i)=>scores[i]===max);$('winner').textContent=`🏆 ${leaders.length===4&&max===0?'Apresiasi untuk semua tim!':`Skor tertinggi: ${leaders.join(', ')} — ${max} poin!`} Terima kasih, seluruh detektif!`}
+function requestReset(){stopClock();$('reset-dialog').classList.remove('hidden');document.querySelector('[data-template-id="reset-confirm"]').focus()}
+function closeReset(){$('reset-dialog').classList.add('hidden');if(screen==='quiz')startClock()}
+function resetGame(goHome){$('reset-dialog').classList.add('hidden');stopClock();scores=[0,0,0,0];correct=[0,0,0,0];wrong=[0,0,0,0];records=Array(20).fill(null);index=0;selected=null;seconds=Number($('timer-setting').value);paused=false;timedOut=false;untimed=false;$('pause-label').classList.remove('hidden');$('resume-label').classList.add('hidden');renderTeams();renderScores();show(goHome?'welcome':'teams')}
+$('timer-setting').addEventListener('change',()=>{if(screen==='quiz'&&!records[index]){seconds=Number($('timer-setting').value);timedOut=false;untimed=false;$('timeout-panel').classList.add('hidden');startClock()}});
+renderTeams();renderScores();
+</script>
+ </body>
+</html>
