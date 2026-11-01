@@ -410,6 +410,12 @@
     <h2 class="display section-title canva-text" data-template-id="results-title">ADVERTISING DETECTIVE — MISSION COMPLETE!</h2>
     <p id="winner" class="body-copy font-black" style="color:#ffd34d"></p>
     <div id="result-list" class="result-list"></div>
+    <div class="glass mt-5" style="padding:clamp(16px,2vw,28px);">
+     <h3 class="font-black" style="color:#ffd34d;font-size:clamp(20px,1.7vw,30px)">KIRIM REKAP HASIL KE GURU</h3>
+     <p class="body-copy">Kirim skor keempat kelompok ke Google Sheets setelah permainan selesai.</p>
+     <button id="send-results-button" class="btn primary canva-button mt-3" type="button" onclick="sendResults()">KIRIM HASIL KE GURU</button>
+     <p id="send-results-status" class="status mt-3" role="status" aria-live="polite"></p>
+    </div>
     <div class="actions mt-5">
      <button class="btn primary canva-button" data-template-id="replay-button" onclick="resetGame(true)">ULANGI PERMAINAN</button><button class="btn secondary canva-button" data-template-id="results-home" onclick="show('welcome')">KEMBALI KE BERANDA</button>
     </div>
@@ -463,6 +469,9 @@ const $=id=>document.getElementById(id);
 const screens=[...document.querySelectorAll('.screen')],qs=[...document.querySelectorAll('.q')],posters=[...document.querySelectorAll('.poster')];
 const posterMap=[0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9],defaults=['TIM A','TIM B','TIM C','TIM D'];
 let names=[...defaults],scores=[0,0,0,0],correct=[0,0,0,0],wrong=[0,0,0,0],records=Array(20).fill(null),index=0,turn=0,selected=null,screen='welcome',returnScreen='quiz',seconds=20,tick=null,paused=false,timedOut=false,untimed=false,audioContext=null;
+const RESULTS_API_URL = "https://script.google.com/macros/s/AKfycbwkzEmK2Lkg1rKlWQOyi-iKjwdI9DWVxzHDOJRZ16QajDDXkV7bzhBQ7Gi5tLij7y1Evg/exec";
+let resultsSubmissionId = null;
+let resultsSubmitted = false;
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function renderTeams(){$('team-cards').innerHTML=names.map((n,i)=>`<div><button type="button" class="team-card ${turn===i?'selected':''}" onclick="setTurn(${i})"><span>TIM ${'ABCD'[i]}</span><strong>${escapeHtml(n)}</strong></button><label class="field-label" for="name-${i}">Nama Tim ${'ABCD'[i]}</label><input id="name-${i}" type="text" maxlength="24" value="${escapeHtml(n)}" oninput="renameTeam(${i},this.value)"></div>`).join('');renderTurn()}
 function renameTeam(i,value){names[i]=value.trim()||defaults[i];$('team-cards').children[i].querySelector('strong').textContent=names[i];renderTurn();renderScores()}
@@ -485,9 +494,59 @@ function updateTimerDisplay(){const limit=Number($('timer-setting').value);$('ti
 function startClock(){stopClock();if(screen!=='quiz'||records[index]||timedOut||paused||untimed)return;const limit=Number($('timer-setting').value);if(!limit){updateTimerDisplay();return}if(seconds<=0||seconds>limit)seconds=limit;updateTimerDisplay();tick=setInterval(()=>{if(screen!=='quiz'||paused)return;seconds--;updateTimerDisplay();if(seconds<=0){stopClock();timedOut=true;$('lock-button').disabled=true;$('timeout-panel').classList.remove('hidden');updateTimerDisplay()}},1000)}
 function togglePause(){if(screen!=='quiz')return;paused=!paused;if(paused)stopClock();else if(!timedOut)startClock();$('pause-label').classList.toggle('hidden',paused);$('resume-label').classList.toggle('hidden',!paused);updateTimerDisplay()}
 function renderScores(){const row=i=>`<div class="score-row"><strong>${escapeHtml(names[i])}</strong><span>✓ ${correct[i]} benar</span><span>✕ ${wrong[i]} salah</span><span class="score-points">${scores[i]} <small>poin</small></span></div>`;$('score-list').innerHTML=names.map((_,i)=>row(i)).join('');$('result-list').innerHTML=names.map((_,i)=>`<div class="glass result-card"><div class="font-black">🏅 ${escapeHtml(names[i])}</div><div>${correct[i]} benar · ${wrong[i]} salah · ${scores[i]} poin</div><div class="font-black mt-2" style="color:#ffd34d">${scores[i]>=90?'MASTER ADVERTISING DETECTIVE':scores[i]>=75?'EXPERT ADVERTISING ANALYST':scores[i]>=60?'SMART AD DETECTIVE':'RISING AD DETECTIVE'}</div></div>`).join('');const max=Math.max(...scores),leaders=names.filter((_,i)=>scores[i]===max);$('winner').textContent=`🏆 ${leaders.length===4&&max===0?'Apresiasi untuk semua tim!':`Skor tertinggi: ${leaders.join(', ')} — ${max} poin!`} Terima kasih, seluruh detektif!`}
+
+function getTeamSkippedCounts(){
+ const skipped=[0,0,0,0];
+ records.forEach(record=>{
+  if(record&&record.skipped&&Number.isInteger(record.team)&&record.team>=0&&record.team<4)skipped[record.team]++;
+ });
+ return skipped;
+}
+async function sendResults(){
+ const button=$('send-results-button');
+ const status=$('send-results-status');
+ if(resultsSubmitted){
+  status.textContent='Hasil sesi ini sudah pernah dikirim. Tidak perlu mengirim ulang.';
+  return;
+ }
+ if(!records.every(Boolean)){
+  status.textContent='Permainan belum selesai. Selesaikan seluruh 20 soal terlebih dahulu.';
+  return;
+ }
+ const skipped=getTeamSkippedCounts();
+ const sessionId=resultsSubmissionId||(resultsSubmissionId=(window.crypto&&crypto.randomUUID?crypto.randomUUID():'AD-'+Date.now()));
+ const results=names.map((team,i)=>{
+  const total=correct[i]+wrong[i]+skipped[i];
+  const percent=total?Math.round((correct[i]/total)*10000)/100:0;
+  const predicate=scores[i]>=90?'MASTER ADVERTISING DETECTIVE':
+   scores[i]>=75?'EXPERT ADVERTISING ANALYST':
+   scores[i]>=60?'SMART AD DETECTIVE':'RISING AD DETECTIVE';
+  return {team,correct:correct[i],wrong:wrong[i]+skipped[i],score:scores[i],percent,predicate};
+ });
+ button.disabled=true;
+ button.textContent='MENGIRIM HASIL...';
+ status.textContent='Mengirim rekap empat kelompok ke Google Sheets...';
+ try{
+  await fetch(RESULTS_API_URL,{
+   method:'POST',
+   mode:'no-cors',
+   headers:{'Content-Type':'text/plain;charset=utf-8'},
+   body:JSON.stringify({action:'saveResults',sessionId,results})
+  });
+  resultsSubmitted=true;
+  status.textContent='Permintaan pengiriman sudah dikirim. Silakan periksa Google Sheets untuk memastikan empat baris hasil sudah masuk.';
+  button.textContent='HASIL SUDAH DIKIRIM';
+ }catch(error){
+  button.disabled=false;
+  button.textContent='COBA KIRIM LAGI';
+  status.textContent='Pengiriman gagal dimulai. Periksa koneksi internet, lalu coba lagi.';
+  console.error('Pengiriman hasil gagal:',error);
+ }
+}
+
 function requestReset(){stopClock();$('reset-dialog').classList.remove('hidden');document.querySelector('[data-template-id="reset-confirm"]').focus()}
 function closeReset(){$('reset-dialog').classList.add('hidden');if(screen==='quiz')startClock()}
-function resetGame(goHome){$('reset-dialog').classList.add('hidden');stopClock();scores=[0,0,0,0];correct=[0,0,0,0];wrong=[0,0,0,0];records=Array(20).fill(null);index=0;selected=null;seconds=Number($('timer-setting').value);paused=false;timedOut=false;untimed=false;$('pause-label').classList.remove('hidden');$('resume-label').classList.add('hidden');renderTeams();renderScores();show(goHome?'welcome':'teams')}
+function resetGame(goHome){$('reset-dialog').classList.add('hidden');stopClock();resultsSubmissionId=null;resultsSubmitted=false;$('send-results-button').disabled=false;$('send-results-button').textContent='KIRIM HASIL KE GURU';$('send-results-status').textContent='';scores=[0,0,0,0];correct=[0,0,0,0];wrong=[0,0,0,0];records=Array(20).fill(null);index=0;selected=null;seconds=Number($('timer-setting').value);paused=false;timedOut=false;untimed=false;$('pause-label').classList.remove('hidden');$('resume-label').classList.add('hidden');renderTeams();renderScores();show(goHome?'welcome':'teams')}
 $('timer-setting').addEventListener('change',()=>{if(screen==='quiz'&&!records[index]){seconds=Number($('timer-setting').value);timedOut=false;untimed=false;$('timeout-panel').classList.add('hidden');startClock()}});
 renderTeams();renderScores();
 </script>
